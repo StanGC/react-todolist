@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+const Clickable = styled.span`
+  cursor: pointer;
+`;
+
+const TodoItem = styled.h3`
+  border-bottom: 1px #777777 solid;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+`;
+
 const TodoText = styled.div`
   color: ${(props) => {
     const now = new Date();
@@ -12,7 +22,19 @@ const TodoText = styled.div`
 
 class Todo extends Component {
   render() {
-    return <TodoText>{this.props.todo}</TodoText>
+    return (
+      <TodoItem>
+        <Clickable
+          onClick={() => {
+            this.props.remove(this.props.todo);
+            }}
+        >
+          <TodoText>
+            {this.props.todo}
+          </TodoText>
+        </Clickable>
+      </TodoItem>
+    )
   }
 }
 
