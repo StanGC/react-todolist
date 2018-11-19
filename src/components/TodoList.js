@@ -3,7 +3,14 @@ import Todo from './Todo';
 
 class TodoList extends Component {
   render() {
-    return <Todo />;
+    const { todos } = this.props;
+    return (
+      <div>
+        {todos.map((todo, index)=>{
+          return <Todo key={index} todo={todo}/>;
+        })}
+      </div>
+    )
   }
 }
 

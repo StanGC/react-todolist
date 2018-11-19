@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Todo extends Component {
   render() {
-    return <h3>買雞蛋</h3>
+    return <h3>{this.props.todo}</h3>
   }
 }
 
