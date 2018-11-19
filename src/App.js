@@ -13,11 +13,18 @@ class App extends Component {
     }
   }
 
+  createTodo(newTodo) {
+    this.setState({
+      todos: [...this.state.todos, newTodo]
+    })
+  }
+
   render() {
     return (
       <div>
         <Title todos={this.state.todos}/>
-        <CreateTodo todos={this.state.todos}/>
+        <CreateTodo todos={this.state.todos}
+        createTodo={(newTodo) => this.createTodo(newTodo)}/>
         <TodoList todos={this.state.todos}/>
       </div>
     );
