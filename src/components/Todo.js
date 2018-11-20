@@ -30,7 +30,7 @@ class Todo extends Component {
             }}
         >
           <TodoText>
-            {this.props.todo}
+            {this.props.todo.text}
           </TodoText>
         </Clickable>
       </TodoItem>
