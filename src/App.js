@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 import AllGroupsTabContent from './components/AllGroupsTabContent';
 import GroupTabContent from './components/GroupTabContent';
 import GroupSwitch from './components/GroupSwitch';
@@ -59,33 +64,51 @@ class App extends Component {
   }
 
   render() {
-    const todos = this.state.activeGroupId ? this.state.todos.filter((todo, index) => {
-      return todo.groupId === this.state.activeGroupId;
-    }) : this.state.todos;
-
-    const tabContent = this.state.activeGroupId ?
-      (<GroupTabContent
-        todos={todos}
-        createTodo={(newTodo, groupId) => this.createTodo(newTodo, groupId)}
-        removeTodo={(todo) => this.removeTodo(todo)}
-      />)
-      :
-      (<AllGroupsTabContent
-        todos={todos}
-        removeTodo={(todo) => this.removeTodo(todo)}
-      />);
-
     return (
-      <div>
-        <GroupSwitch
-          groups={this.state.groups}
-          activeGroupId={this.state.activeGroupId}
-          switchGroup={(groupId) => this.switchGroup(groupId)}
-        />
+      <Router>
         <div>
-          {tabContent}
+          <Route exact path='/'
+            render={() => {
+              return (
+                <div>
+                  <GroupSwitch
+                    groups={this.state.groups}
+                    activeGroupId={undefined}
+                    switchGroup={(groupId) => this.switchGroup(groupId)}
+                  />
+                  <AllGroupsTabContent
+                    todos={this.state.todos}
+                    removeTodo={(todo) => this.removeTodo(todo)}
+                  />
+                </div>
+              );
+            }}
+          />
+
+          <Route exact path='/group/:id'
+            render={({ match }) => {
+              const todos = this.state.todos.filter((todo, index) => {
+                return todo.groupId === match.params.id;
+              })
+              return (
+                <div>
+                  <GroupSwitch
+                    groups={this.state.groups}
+                    activeGroupId={match.params.id}
+                    switchGroup={(groupId) => this.switchGroup(groupId)}
+                  />
+
+                  <GroupTabContent
+                    todos={todos}
+                    createTodo={(newTodo, groupId) => this.createTodo(newTodo, groupId)}
+                    removeTodo={(todo) => this.removeTodo(todo)}
+                  />
+                </div>
+              );
+            }}
+          />
         </div>
-      </div>
+      </Router>
     );
   }
 }
